@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Results — Codexhub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5EEFF;
+    --paper-line:#E4DBF5;
+    --ink:#1B1230;
+    --ink-soft:#5B5470;
+    --navy:#22103F;
+    --navy-700:#2E1065;
+    --stamp:#6D28D9;
+    --stamp-soft:#8B5CF6;
+    --brass:#E9D8FD;
+    --white:#FFFFFF;
+    --muted-on-navy:#B8A9E0;
+    --radius-sm:8px;
+    --radius:12px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'IBM Plex Sans',sans-serif; color:var(--ink);
+    background:var(--paper);
+    background-image:radial-gradient(circle, rgba(27,18,48,0.14) 1px, transparent 1px);
+    background-size:16px 16px;
+    min-height:100vh; padding-bottom:60px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ---- Header, matching index.html / dashboard.html brand cluster ---- */
+  header{
+    background:rgba(245,238,255,0.94);
+    backdrop-filter:blur(8px);
+    border-bottom:2px solid var(--ink);
+    position:sticky; top:0; z-index:10;
+  }
+  .header-inner{
+    max-width:600px; margin:0 auto; padding:12px 18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logo-badge, .school-badge{
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; overflow:hidden;
+    background:var(--white); border:1.5px solid var(--ink);
+  }
+  .logo-badge img, .school-badge img{width:100%; height:100%; object-fit:cover;}
+  .brand-text{min-width:0;}
+  .brand-name{font-family:'IBM Plex Serif',serif; font-weight:700; font-size:14px; white-space:nowrap;}
+  .brand-sub{font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--ink-soft); font-weight:500; white-space:nowrap; letter-spacing:.03em; text-transform:uppercase;}
+
+  .wrap{max-width:600px; margin:0 auto; padding:28px 18px 0;}
+  h1{font-family:'IBM Plex Serif',serif; font-size:clamp(22px,5vw,28px); font-weight:700; letter-spacing:-0.01em; margin-bottom:6px;}
+  p.lead{color:var(--ink-soft); font-size:14px; margin-bottom:8px;}
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:700;
+    color:var(--stamp); margin-bottom:24px; letter-spacing:.02em; text-transform:uppercase;
+  }
+  .loading{text-align:center; color:var(--ink-soft); padding:40px 0; font-size:14px;}
+
+  /* ---- Result cards, styled as ticket passes (class names kept exactly for JS) ---- */
+  .rcard{
+    background:var(--white); border:1.5px solid var(--ink); border-radius:var(--radius);
+    padding:20px; margin-bottom:16px;
+    position:relative; overflow:hidden;
+  }
+  .rcard::before{
+    content:""; position:absolute; top:0; left:22px; right:22px; height:0;
+    border-top:2px dashed var(--paper-line);
+  }
+  .rcard-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px;}
+  .rcard-title{font-family:'IBM Plex Serif',serif; font-size:16.5px; font-weight:700;}
+  .rbadge{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:999px;
+    white-space:nowrap; letter-spacing:.03em; text-transform:uppercase;
+  }
+  .rbadge.not_attempted{background:var(--paper); color:var(--ink-soft); border:1px solid var(--paper-line);}
+  .rbadge.pending{background:#FEF3C7; color:#B45309;}
+  .rbadge.released{background:#DCFCE7; color:#16A34A;}
+  .rcard-info{font-size:13px; color:var(--ink-soft); line-height:1.6;}
+
+  .rscore-block{
+    text-align:center; padding:18px 0; margin:14px 0;
+    background:var(--paper); border-radius:var(--radius-sm);
+  }
+  .rscore{font-family:'IBM Plex Serif',serif; font-size:36px; font-weight:700; color:var(--stamp);}
+  .rpct{font-size:13px; color:var(--ink-soft); margin-top:2px;}
+  .rgrade{
+    display:inline-block; margin-top:8px; padding:4px 14px; border-radius:999px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px; font-weight:700; letter-spacing:.03em;
+  }
+  .subject-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:9px 0; border-bottom:1px solid var(--paper-line); font-size:13px;
+  }
+  .subject-row:last-child{border-bottom:none;}
+  .subject-bar-track{flex:1; height:5px; background:var(--paper-line); border-radius:99px; margin:0 10px; overflow:hidden;}
+  .subject-bar-fill{height:100%; background:var(--stamp-soft); border-radius:99px;}
+  .subject-score{font-weight:700; font-size:12.5px; white-space:nowrap; min-width:36px; text-align:right;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-badge"><img src="blogo.png" alt="Codexhub logo"></div>
+    <div class="school-badge"><img src="slogo.jpg" alt="OOU logo"></div>
+    <div class="brand-text">
+      <div class="brand-name">CodexHub</div>
+      <div class="brand-sub">OOU PUTME Mock Exam</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>My Results</h1>
+  <p class="lead">Your official record for all 3 days.</p>
+  <a href="/dashboard.html" class="back-link">← Back to Dashboard</a>
+
+  <div id="loadingState" class="loading">Loading your results...</div>
+  <div id="resultsContainer"></div>
+</div>
+
+<script>
+  const API_BASE_URL = 'https://codexhub-putme.onrender.com'; // same URL as your other pages
+
+  const token = localStorage.getItem('codexhub_token');
+  if (!token) { window.location.href = '/index.html'; }
+
+  const DAY_TITLES = { 1: "Diagnostic Mock", 2: "Full Exam Simulation", 3: "Review & Final Drill" };
+
+  function gradeFor(pct){
+    if (pct >= 70) return { label: 'DISTINCTION', bg: '#DCFCE7', color: '#16A34A' };
+    if (pct >= 50) return { label: 'CREDIT', bg: '#DBEAFE', color: '#2563EB' };
+    if (pct >= 40) return { label: 'PASS', bg: '#FEF3C7', color: '#B45309' };
+    return { label: 'FAIL', bg: '#FEE2E2', color: '#DC2626' };
+  }
+
+  async function loadResults(){
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/results`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        document.getElementById('loadingState').textContent = data.error || 'Something went wrong.';
+        return;
+      }
+
+      renderResults(data.days);
+    } catch (err) {
+      document.getElementById('loadingState').textContent = 'Could not reach the server. Please refresh.';
+    }
+  }
+
+  function renderResults(days){
+    document.getElementById('loadingState').style.display = 'none';
+    const container = document.getElementById('resultsContainer');
+    container.innerHTML = '';
+
+    days.forEach(d => {
+      const card = document.createElement('div');
+      card.className = 'rcard';
+
+      let badgeLabel = { not_attempted: 'Not Attempted', pending: 'Pending', released: 'Released' }[d.status];
+      let bodyHtml = '';
+
+      if (d.status === 'not_attempted') {
+        bodyHtml = `<div class="rcard-info">You haven't taken Day ${d.day} yet.</div>`;
+      } else if (d.status === 'pending') {
+        const dateStr = new Date(d.release_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        bodyHtml = `<div class="rcard-info">Submitted (${d.attempts_used} attempt${d.attempts_used > 1 ? 's' : ''}). Your result will be available on <b>${dateStr}</b>.</div>`;
+      } else if (d.status === 'released') {
+        const r = d.result;
+        const grade = gradeFor(r.percentage);
+        let subjectsHtml = '';
+        (r.subject_breakdown || []).forEach(s => {
+          const pct = s.total ? Math.round((s.correct / s.total) * 100) : 0;
+          subjectsHtml += `
+            <div class="subject-row">
+              <span>${s.subject}</span>
+              <div class="subject-bar-track"><div class="subject-bar-fill" style="width:${pct}%"></div></div>
+              <span class="subject-score">${s.correct}/${s.total}</span>
+            </div>`;
+        });
+        bodyHtml = `
+          <div class="rcard-info">Best of ${d.attempts_used} attempt${d.attempts_used > 1 ? 's' : ''}</div>
+          <div class="rscore-block">
+            <div class="rscore">${r.score}<span style="font-size:18px; color:var(--ink-soft);">/${r.total_questions}</span></div>
+            <div class="rpct">${r.percentage}% overall</div>
+            <div class="rgrade" style="background:${grade.bg}; color:${grade.color};">${grade.label}</div>
+          </div>
+          ${subjectsHtml}
+        `;
+      }
+
+      card.innerHTML = `
+        <div class="rcard-top">
+          <div class="rcard-title">Day ${d.day} — ${DAY_TITLES[d.day]}</div>
+          <span class="rbadge ${d.status}">${badgeLabel}</span>
+        </div>
+        ${bodyHtml}
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  loadResults();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Mock Exam — Codexhub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5EEFF;
+    --paper-line:#E4DBF5;
+    --ink:#1B1230;
+    --ink-soft:#5B5470;
+    --navy:#22103F;
+    --navy-700:#2E1065;
+    --stamp:#6D28D9;
+    --stamp-soft:#8B5CF6;
+    --brass:#E9D8FD;
+    --white:#FFFFFF;
+    --muted-on-navy:#B8A9E0;
+    --radius-sm:8px;
+    --radius:12px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'IBM Plex Sans',sans-serif; color:var(--ink);
+    background:var(--paper);
+    background-image:radial-gradient(circle, rgba(27,18,48,0.14) 1px, transparent 1px);
+    background-size:16px 16px;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ---- Header, matching index.html brand cluster ---- */
+  header{
+    background:rgba(245,238,255,0.94);
+    backdrop-filter:blur(8px);
+    border-bottom:2px solid var(--ink);
+    position:sticky; top:0; z-index:10;
+  }
+  .header-inner{
+    max-width:560px; margin:0 auto; padding:12px 18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logo-badge, .school-badge{
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; overflow:hidden;
+    background:var(--white); border:1.5px solid var(--ink);
+  }
+  .logo-badge img, .school-badge img{width:100%; height:100%; object-fit:cover;}
+  .brand-text{min-width:0;}
+  .brand-name{font-family:'IBM Plex Serif',serif; font-weight:700; font-size:14px; white-space:nowrap;}
+  .brand-sub{font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--ink-soft); font-weight:500; white-space:nowrap; letter-spacing:.03em; text-transform:uppercase;}
+
+  .wrap{max-width:560px; margin:0 auto; padding:28px 18px;}
+  h1{font-family:'IBM Plex Serif',serif; font-size:clamp(22px,5vw,28px); font-weight:700; letter-spacing:-0.01em; margin-bottom:6px;}
+  p.lead{color:var(--ink-soft); font-size:14px; margin-bottom:26px;}
+
+  .profile-link{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:700;
+    color:var(--stamp); margin-bottom:24px; letter-spacing:.02em; text-transform:uppercase;
+  }
+
+  /* ---- Day cards, styled as ticket passes (class names kept exactly for JS) ---- */
+  .day-card{
+    background:var(--white); border:1.5px solid var(--ink); border-radius:var(--radius);
+    padding:20px; margin-bottom:14px;
+    display:flex; flex-direction:column; gap:12px;
+    position:relative; overflow:hidden;
+  }
+  .day-card::before{
+    content:""; position:absolute; top:0; left:22px; right:22px; height:0;
+    border-top:2px dashed var(--paper-line);
+  }
+  .day-card.locked{opacity:0.55;}
+  .day-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .day-title{font-family:'IBM Plex Serif',serif; font-size:16.5px; font-weight:700;}
+  .day-badge{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:999px;
+    white-space:nowrap; letter-spacing:.03em; text-transform:uppercase;
+  }
+  .day-badge.unlocked{background:var(--brass); color:var(--stamp);}
+  .day-badge.locked{background:var(--paper); color:var(--ink-soft); border:1px solid var(--paper-line);}
+  .day-badge.done{background:#DCFCE7; color:#16A34A;}
+  .day-info{font-size:13px; color:var(--ink-soft); line-height:1.6;}
+  .day-info b{color:var(--ink);}
+  button.start-btn{
+    padding:12px; border:none; border-radius:999px;
+    background:var(--stamp); color:var(--white); font-weight:600; font-size:14px;
+    cursor:pointer; font-family:inherit;
+    box-shadow:0 4px 14px rgba(109,40,217,0.28);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  button.start-btn:hover:not(:disabled){transform:translateY(-1px); box-shadow:0 8px 20px rgba(109,40,217,0.35);}
+  button.start-btn:disabled{background:#DDD4EE; color:#8B84A0; cursor:not-allowed; box-shadow:none;}
+  .loading{text-align:center; color:var(--ink-soft); padding:40px 0; font-size:14px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-badge"><img src="blogo.png" alt="Codexhub logo"></div>
+    <div class="school-badge"><img src="slogo.jpg" alt="OOU logo"></div>
+    <div class="brand-text">
+      <div class="brand-name">CodexHub</div>
+      <div class="brand-sub">OOU PUTME Mock Exam</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>Your Mock Exam</h1>
+  <p class="lead">Complete each day in order. You get 2 attempts per day, 30 minutes each.</p>
+  <a href="/profile.html" style="display:inline-block; font-size:13px; font-weight:600; color:var(--violet-700); margin-bottom:22px;">View My Profile →</a>
+<a href="/admin.html" style="display:inline-block; font-size:13px; font-weight:600; color:#B45309; margin-left:16px; margin-bottom:22px;">🔍 Admin</a>
+  <div id="loadingState" class="loading">Loading your progress...</div>
+  <div id="daysContainer"></div>
+</div>
+
+<script>
+  const API_BASE_URL = 'https://codexhub-putme.onrender.com'; // same URL as your other pages
+
+  const token = localStorage.getItem('codexhub_token');
+  if (!token) {
+    window.location.href = '/index.html';
+  }
+
+  const DAY_TITLES = {
+    1: "Diagnostic Mock",
+    2: "Full Exam Simulation",
+    3: "Review & Final Drill"
+  };
+
+  async function loadStatus(){
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/exam-status`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (data.error && data.error.includes('subjects')) {
+          window.location.href = '/subjects.html';
+          return;
+        }
+        document.getElementById('loadingState').textContent = data.error || 'Something went wrong.';
+        return;
+      }
+
+      renderDays(data.days);
+    } catch (err) {
+      document.getElementById('loadingState').textContent = 'Could not reach the server. Please refresh.';
+    }
+  }
+
+  function renderDays(days){
+    const container = document.getElementById('daysContainer');
+    document.getElementById('loadingState').style.display = 'none';
+    container.innerHTML = '';
+
+    days.forEach(d => {
+      const card = document.createElement('div');
+      card.className = 'day-card' + (d.unlocked ? '' : ' locked');
+
+      let badgeHtml, badgeClass;
+      if (!d.unlocked){
+        badgeClass = 'locked'; badgeHtml = 'Locked';
+      } else if (d.attempts_remaining === 0){
+        badgeClass = 'done'; badgeHtml = 'Completed';
+      } else {
+        badgeClass = 'unlocked'; badgeHtml = 'Available';
+      }
+
+      let infoHtml = '';
+      if (!d.unlocked){
+        infoHtml = d.unlock_date
+          ? `Opens on <b>${d.unlock_date}</b> — come back then.`
+          : `Complete Day ${d.day - 1} first to unlock this.`;
+      } else {
+        infoHtml = `<b>${d.attempts_remaining}</b> of 2 attempts remaining`;
+      }
+
+      const canStart = d.unlocked && d.attempts_remaining > 0;
+
+      card.innerHTML = `
+        <div class="day-top">
+          <div class="day-title">Day ${d.day} — ${DAY_TITLES[d.day]}</div>
+          <span class="day-badge ${badgeClass}">${badgeHtml}</span>
+        </div>
+        <div class="day-info">${infoHtml}</div>
+        <button class="start-btn" ${canStart ? '' : 'disabled'} data-day="${d.day}">
+          ${d.attempts_remaining === 2 ? 'Start Day ' + d.day : (canStart ? 'Retake Day ' + d.day : (d.attempts_remaining === 0 && d.unlocked ? 'No Attempts Left' : 'Locked'))}
+        </button>
+      `;
+
+      const btn = card.querySelector('.start-btn');
+      if (canStart){
+        btn.addEventListener('click', () => {
+          window.location.href = `/exam.html?day=${d.day}`;
+        });
+      }
+
+      container.appendChild(card);
+    });
+  }
+
+  loadStatus();
+</script>
+
+</body>
+</html>

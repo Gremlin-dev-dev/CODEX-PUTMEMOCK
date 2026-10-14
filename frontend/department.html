@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Your Department — CodexHub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5EEFF;
+    --paper-line:#E4DBF5;
+    --ink:#1B1230;
+    --ink-soft:#5B5470;
+    --navy:#22103F;
+    --navy-700:#2E1065;
+    --stamp:#6D28D9;
+    --stamp-soft:#8B5CF6;
+    --brass:#E9D8FD;
+    --white:#FFFFFF;
+    --muted-on-navy:#B8A9E0;
+    --radius-sm:8px;
+    --radius:12px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'IBM Plex Sans',sans-serif; color:var(--ink);
+    background:var(--paper);
+    background-image:radial-gradient(circle, rgba(27,18,48,0.14) 1px, transparent 1px);
+    background-size:16px 16px;
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  h1{font-family:'IBM Plex Serif',serif; font-size:clamp(22px,5vw,26px); font-weight:700; letter-spacing:-0.01em; margin-bottom:10px;}
+
+  /* ---- Ticket card, matching login.html ---- */
+  .ticket{
+    width:100%; max-width:440px;
+    background:var(--white); border:1.5px solid var(--ink);
+    border-radius:16px; overflow:hidden;
+    box-shadow:0 22px 46px rgba(34,16,63,0.18);
+  }
+  .ticket-stub{
+    background:var(--navy); color:var(--white);
+    padding:20px 24px 18px;
+    position:relative;
+  }
+  .ticket-stub::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:0;
+    border-bottom:2px dashed rgba(255,255,255,0.28);
+  }
+  .brand-cluster{display:flex; align-items:center; gap:8px; margin-bottom:16px;}
+  .logo-badge, .school-badge{
+    width:32px; height:32px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; overflow:hidden;
+    background:var(--white); border:1.5px solid rgba(255,255,255,0.35);
+  }
+  .logo-badge img, .school-badge img{width:100%; height:100%; object-fit:cover;}
+  .brand-name{font-family:'IBM Plex Serif',serif; font-weight:700; font-size:13px; color:var(--white);}
+  .ticket-mark{
+    position:absolute; top:20px; right:20px;
+    width:32px; height:32px; border-radius:50%;
+    border:1.5px solid rgba(255,255,255,0.35);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:700; color:var(--muted-on-navy);
+    text-align:center; line-height:1.2;
+  }
+
+  .ticket-main{padding:24px 24px 22px;}
+  p.lead{color:var(--ink-soft); font-size:14px; margin-bottom:22px; line-height:1.55;}
+
+  .dept-options{display:flex; flex-direction:column; gap:12px; margin-bottom:22px;}
+  .dept-option{
+    display:flex; align-items:center; gap:12px;
+    border:1.5px solid var(--paper-line); border-radius:12px;
+    padding:16px; cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .dept-option:hover{border-color:var(--stamp-soft);}
+  .dept-option input{accent-color:var(--stamp); width:18px; height:18px; flex-shrink:0;}
+  .dept-option .label{font-weight:600; font-size:15px;}
+  .dept-option.selected{border-color:var(--stamp-soft); background:var(--paper);}
+
+  button{
+    width:100%; padding:14px; border:none; border-radius:999px;
+    background:var(--stamp); color:var(--white); font-weight:600; font-size:15px;
+    cursor:pointer; font-family:inherit;
+    box-shadow:0 4px 14px rgba(109,40,217,0.28);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  button:hover:not(:disabled){transform:translateY(-1px); box-shadow:0 8px 20px rgba(109,40,217,0.35);}
+  button:disabled{opacity:0.6; cursor:not-allowed;}
+  .msg{font-size:13px; margin-top:14px; text-align:center; min-height:18px;}
+  .msg.error{color:#B3261E;}
+  .msg.success{color:#1E7A3C;}
+</style>
+</head>
+<body>
+
+<div class="ticket">
+  <div class="ticket-stub">
+    <div class="brand-cluster">
+      <div class="logo-badge"><img src="blogo.png" alt="Codexhub logo"></div>
+      <div class="school-badge"><img src="slogo.jpg" alt="OOU logo"></div>
+      <span class="brand-name">CodexHub</span>
+    </div>
+    <div class="ticket-mark">ADMIT<br>ONE</div>
+    <h1>What's your department?</h1>
+  </div>
+
+  <div class="ticket-main">
+    <p class="lead">This decides which subjects show up in your mock exam. Pick the one you're sitting the real CBT for.</p>
+
+    <form id="deptForm">
+      <div class="dept-options">
+        <label class="dept-option">
+          <input type="radio" name="department" value="science" required>
+          <span class="label">Science</span>
+        </label>
+        <label class="dept-option">
+          <input type="radio" name="department" value="art">
+          <span class="label">Art</span>
+        </label>
+        <label class="dept-option">
+          <input type="radio" name="department" value="commercial">
+          <span class="label">Commercial</span>
+        </label>
+      </div>
+      <button type="submit" id="submitBtn">Continue</button>
+      <div class="msg" id="deptMsg"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const API_BASE_URL = 'https://codexhub-putme.onrender.com'; // same URL as in index.html
+
+  const token = localStorage.getItem('codexhub_token');
+  if (!token) {
+    // Not signed in — send them back to sign up first
+    window.location.href = '/index.html';
+  }
+
+  // Highlight the selected card
+  document.querySelectorAll('.dept-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.dept-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+
+  const form = document.getElementById('deptForm');
+  const msg = document.getElementById('deptMsg');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    msg.textContent = '';
+    msg.className = 'msg';
+
+    const selected = form.querySelector('input[name="department"]:checked');
+    if (!selected) {
+      msg.textContent = 'Please choose a department.';
+      msg.className = 'msg error';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/set-department`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ department: selected.value })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        msg.textContent = data.error || 'Something went wrong. Please try again.';
+        msg.className = 'msg error';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Continue';
+      } else {
+        msg.textContent = "Saved! Choose your subjects next...";
+msg.className = 'msg success';
+setTimeout(() => { window.location.href = '/subjects.html'; }, 1000);
+      }
+    } catch (err) {
+      msg.textContent = 'Could not reach the server. Please check your connection and try again.';
+      msg.className = 'msg error';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Continue';
+    }
+  });
+</script>
+
+</body>
+</html>

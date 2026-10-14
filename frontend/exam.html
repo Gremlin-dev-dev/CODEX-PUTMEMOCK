@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mock Exam — Codexhub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+<style>
+  :root{
+    --paper:#F5EEFF;
+    --paper-line:#E4DBF5;
+    --ink:#1B1230;
+    --ink-soft:#5B5470;
+    --navy:#22103F;
+    --navy-700:#2E1065;
+    --stamp:#6D28D9;
+    --stamp-soft:#8B5CF6;
+    --brass:#E9D8FD;
+    --white:#FFFFFF;
+    --muted-on-navy:#B8A9E0;
+    --radius-sm:8px;
+    --radius:12px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'IBM Plex Sans',sans-serif; color:var(--ink); background:var(--paper);
+    background-image:radial-gradient(circle, rgba(27,18,48,0.14) 1px, transparent 1px);
+    background-size:16px 16px;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .topbar{
+    position:sticky; top:0; z-index:10;
+    background:var(--navy); color:white;
+    padding:14px 18px; display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:10px;
+    border-bottom:2px solid rgba(255,255,255,0.1);
+  }
+  .topbar .day-label{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted-on-navy); font-weight:600; letter-spacing:.03em;}
+  .topbar-brand{display:flex; align-items:center; gap:7px;}
+  .topbar-brand .logo-badge, .topbar-brand .school-badge{
+    width:24px; height:24px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; overflow:hidden;
+    background:var(--white); border:1px solid rgba(255,255,255,0.35);
+  }
+  .topbar-brand img{width:100%; height:100%; object-fit:cover;}
+  .timer{
+    display:flex; align-items:center; gap:8px;
+    background:rgba(34,197,94,0.18); border:1px solid rgba(34,197,94,0.45);
+    padding:6px 14px; border-radius:8px; font-size:15px; font-weight:700; color:#86EFAC;
+    transition:background .3s ease, border-color .3s ease, color .3s ease;
+  }
+  .timer.warning{
+    background:#DC2626; border-color:#DC2626; color:white;
+    animation:flashRed 0.9s infinite;
+  }
+  @keyframes flashRed{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.45; }
+  }
+  .wrap{max-width:600px; margin:0 auto; padding:20px 16px 100px;}
+  .loading{text-align:center; color:var(--ink-soft); padding:60px 0; font-size:14px;}
+  .progress-bar{height:5px; background:var(--paper-line); border-radius:99px; overflow:hidden; margin-bottom:18px;}
+  .progress-fill{height:100%; background:linear-gradient(90deg, var(--stamp-soft), var(--stamp)); border-radius:99px;}
+  .qmeta{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-soft); font-weight:600; margin-bottom:10px; letter-spacing:.02em;}
+  .qcard{
+    background:white; border:1.5px solid var(--ink); border-radius:var(--radius); padding:22px 18px;
+    margin-bottom:20px; position:relative; overflow:hidden;
+  }
+  .qcard::before{
+    content:""; position:absolute; top:0; left:22px; right:22px; height:0;
+    border-top:2px dashed var(--paper-line);
+  }
+  .qtext{font-size:16px; line-height:1.55; margin-bottom:20px; font-weight:500;}
+  .options{display:flex; flex-direction:column; gap:10px;}
+  .option{
+    display:flex; align-items:center; gap:12px;
+    border:1.5px solid var(--paper-line); border-radius:12px; padding:13px 15px;
+    cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  .option:hover{border-color:var(--stamp-soft);}
+  .option.selected{border-color:var(--stamp-soft); background:var(--paper);}
+  .option .letter{
+    width:24px; height:24px; border-radius:50%; background:var(--paper);
+    display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700;
+    color:var(--stamp); flex-shrink:0;
+  }
+  .option.selected .letter{background:var(--stamp); color:white;}
+  .nav-row{display:flex; gap:10px; margin-bottom:20px;}
+  .nav-btn{
+    flex:1; padding:13px; border-radius:999px; border:1.5px solid var(--paper-line);
+    background:white; font-weight:600; font-size:14px; cursor:pointer; font-family:inherit;
+  }
+  .nav-btn:disabled{opacity:0.4; cursor:not-allowed;}
+  .nav-btn.primary{background:var(--stamp); color:white; border:none; box-shadow:0 4px 14px rgba(109,40,217,0.28);}
+  .jump-grid{display:grid; grid-template-columns:repeat(8,1fr); gap:6px; margin-bottom:20px;}
+  .jump-btn{
+    aspect-ratio:1; border-radius:8px; border:1.5px solid var(--paper-line); background:white;
+    font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:var(--ink-soft); cursor:pointer;
+  }
+  .jump-btn.answered{background:var(--brass); border-color:var(--stamp-soft); color:var(--stamp);}
+  .jump-btn.current{border-color:var(--stamp); border-width:2px;}
+  .submit-bar{
+    position:fixed; bottom:0; left:0; right:0; background:white;
+    border-top:2px solid var(--ink); padding:14px 16px; z-index:10;
+  }
+  .submit-bar-inner{max-width:600px; margin:0 auto;}
+
+  /* Calculator */
+  .calc-toggle{
+    position:fixed; right:16px; bottom:78px; z-index:15;
+    width:52px; height:52px; border-radius:50%; border:none;
+    background:var(--stamp); color:white; font-size:22px;
+    box-shadow:0 8px 20px rgba(109,40,217,0.35); cursor:pointer;
+  }
+  .calc-panel{
+    position:fixed; right:16px; bottom:140px; z-index:16;
+    width:230px; background:var(--navy); border-radius:14px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.4); overflow:hidden;
+    display:none;
+  }
+  .calc-panel.open{display:block;}
+  .calc-display{
+    background:#150A2B; color:white; padding:14px 12px; text-align:right;
+    font-family:'IBM Plex Mono',monospace; font-size:22px; word-break:break-all;
+    min-height:30px;
+  }
+  .calc-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,0.08);}
+  .calc-btn{
+    background:var(--navy-700); color:white; border:none; padding:14px 0;
+    font-size:16px; font-family:inherit; cursor:pointer;
+  }
+  .calc-btn:active{background:var(--stamp);}
+  .calc-btn.op{color:var(--brass); font-weight:700;}
+  .calc-btn.clear{color:#F87171;}
+  .calc-btn.equals{background:var(--stamp); grid-column:span 2;}
+
+  /* Exit warning modal */
+  .exit-overlay{
+    position:fixed; inset:0; background:rgba(34,16,63,0.55); z-index:30;
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+  }
+  .exit-overlay.open{opacity:1; pointer-events:auto;}
+  .exit-modal{
+    position:fixed; left:50%; top:50%; transform:translate(-50%,-50%) scale(0.95);
+    width:calc(100% - 48px); max-width:340px;
+    background:white; border-radius:16px; padding:26px 22px; text-align:center;
+    z-index:31; box-shadow:0 24px 60px rgba(0,0,0,0.35);
+    opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease;
+    border:1.5px solid var(--ink);
+  }
+  .exit-modal.open{opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1);}
+  .exit-modal-icon{font-size:32px; margin-bottom:10px;}
+  .exit-modal h3{font-family:'IBM Plex Serif',serif; font-size:17px; font-weight:700; margin-bottom:10px;}
+  .exit-modal p{font-size:13.5px; color:var(--ink-soft); line-height:1.55; margin-bottom:20px;}
+  .exit-modal-actions{display:flex; flex-direction:column; gap:10px;}
+  .exit-btn{padding:13px; border-radius:999px; border:none; font-weight:600; font-size:14px; cursor:pointer; font-family:inherit;}
+  .exit-btn.stay{background:var(--stamp); color:white;}
+  .exit-btn.leave{background:white; color:#DC2626; border:1.5px solid #FCA5A5;}
+
+  .exit-toast{
+    position:fixed; top:70px; left:50%; transform:translateX(-50%) translateY(-10px);
+    background:var(--navy); color:white; font-size:13px; font-weight:500;
+    padding:12px 18px; border-radius:10px; max-width:90%; text-align:center;
+    z-index:32; box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
+  }
+  .exit-toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .submit-btn{
+    width:100%; padding:15px; border:none; border-radius:999px;
+    background:#16A34A; color:white; font-weight:700; font-size:15px; cursor:pointer; font-family:inherit;
+  }
+  .submit-btn:disabled{opacity:0.6;}
+
+  /* Result slip */
+  .slip{
+    background:white; border-radius:16px; overflow:hidden;
+    box-shadow:0 20px 50px rgba(34,16,63,0.18); margin-top:20px;
+    border:1.5px solid var(--ink);
+  }
+  .slip-header{
+    background:var(--navy); color:white; padding:22px 20px; text-align:center;
+  }
+  .slip-header .brand{font-family:'IBM Plex Serif',serif; font-weight:700; font-size:16px; letter-spacing:.02em;}
+  .slip-header .sub{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted-on-navy); margin-top:4px; letter-spacing:.05em;}
+  .slip-body{padding:22px 20px;}
+  .slip-row{
+    display:flex; justify-content:space-between; padding:8px 0;
+    border-bottom:1px solid var(--paper-line); font-size:13.5px;
+  }
+  .slip-row span:first-child{color:var(--ink-soft);}
+  .slip-row span:last-child{font-weight:600;}
+  .slip-score-block{
+    text-align:center; padding:22px 0; margin:16px 0;
+    background:var(--paper); border-radius:var(--radius-sm);
+  }
+  .slip-score{font-family:'IBM Plex Serif',serif; font-size:42px; font-weight:700; color:var(--stamp);}
+  .slip-pct{font-size:14px; color:var(--ink-soft); margin-top:2px;}
+  .slip-grade{
+    display:inline-block; margin-top:10px; padding:5px 16px; border-radius:999px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px; font-weight:700; letter-spacing:.03em;
+  }
+  .slip-subjects{margin-top:8px;}
+  .slip-subjects h4{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;}
+  .subject-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px 0; border-bottom:1px solid var(--paper-line); font-size:13.5px;
+  }
+  .subject-row:last-child{border-bottom:none;}
+  .subject-bar-track{
+    flex:1; height:6px; background:var(--paper-line); border-radius:99px; margin:0 12px; overflow:hidden;
+  }
+  .subject-bar-fill{height:100%; background:var(--stamp-soft); border-radius:99px;}
+  .subject-score{font-weight:700; font-size:13px; white-space:nowrap; min-width:38px; text-align:right;}
+  .slip-footer{
+    padding:16px 20px; background:var(--paper); text-align:center; font-size:11.5px; color:var(--ink-soft);
+  }
+  .result-btn{
+    display:block; text-align:center; padding:14px; border-radius:999px; background:var(--stamp);
+    color:white; font-weight:600; font-size:14px; text-decoration:none; margin-top:18px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="logo-badge"><img src="blogo.png" alt="Codexhub logo"></div>
+    <div class="school-badge"><img src="slogo.jpg" alt="OOU logo"></div>
+    <span class="day-label" id="dayLabel">Loading...</span>
+  </div>
+  <div class="timer" id="timerDisplay"><span class="mono" id="timerText">--:--</span></div>
+</div>
+
+<div class="wrap">
+  <div class="loading" id="loadingState">Loading your questions...</div>
+  <div id="examContainer" style="display:none;"></div>
+</div>
+
+<div class="submit-bar" id="submitBar" style="display:none;">
+  <div class="submit-bar-inner">
+    <button class="submit-btn" id="submitExamBtn">Submit Exam</button>
+  </div>
+</div>
+
+<div class="exit-overlay" id="exitOverlay"></div>
+<div class="exit-modal" id="exitModal">
+  <div class="exit-modal-icon">⚠️</div>
+  <h3>Leaving the exam?</h3>
+  <p>Going back or leaving this page will <b>submit your exam immediately</b> with your current answers. This can't be undone.</p>
+  <div class="exit-modal-actions">
+    <button class="exit-btn stay" id="exitStayBtn">Stay in Exam</button>
+    <button class="exit-btn leave" id="exitLeaveBtn">Exit & Submit</button>
+  </div>
+</div>
+
+<div class="exit-toast" id="exitToast">You left the exam briefly — please stay on this page until you submit.</div>
+
+<button class="calc-toggle" id="calcToggle" aria-label="Toggle calculator">🧮</button>
+<div class="calc-panel" id="calcPanel">
+  <div class="calc-display" id="calcDisplay">0</div>
+  <div class="calc-grid">
+    <button class="calc-btn clear" data-key="C">C</button>
+    <button class="calc-btn op" data-key="(">(</button>
+    <button class="calc-btn op" data-key=")">)</button>
+    <button class="calc-btn op" data-key="/">÷</button>
+    <button class="calc-btn" data-key="7">7</button>
+    <button class="calc-btn" data-key="8">8</button>
+    <button class="calc-btn" data-key="9">9</button>
+    <button class="calc-btn op" data-key="*">×</button>
+    <button class="calc-btn" data-key="4">4</button>
+    <button class="calc-btn" data-key="5">5</button>
+    <button class="calc-btn" data-key="6">6</button>
+    <button class="calc-btn op" data-key="-">-</button>
+    <button class="calc-btn" data-key="1">1</button>
+    <button class="calc-btn" data-key="2">2</button>
+    <button class="calc-btn" data-key="3">3</button>
+    <button class="calc-btn op" data-key="+">+</button>
+    <button class="calc-btn" data-key="0">0</button>
+    <button class="calc-btn" data-key=".">.</button>
+    <button class="calc-btn equals" data-key="=">=</button>
+  </div>
+</div>
+
+<script>
+  const API_BASE_URL = 'https://codexhub-putme.onrender.com'; // same URL as your other pages
+
+  const token = localStorage.getItem('codexhub_token');
+  if (!token) { window.location.href = '/index.html'; }
+
+  const params = new URLSearchParams(window.location.search);
+  const day = parseInt(params.get('day'), 10);
+  if (![1,2,3].includes(day)) { window.location.href = '/dashboard.html'; }
+
+  let questions = [];
+  let currentIndex = 0;
+  const answers = {}; // { questionId: "A" }
+  let timeLeftSeconds = 0;
+  let candidate = null; // filled in from /api/me before the exam starts
+  let timerInterval = null;
+  let submitted = false;
+
+  const loadingState = document.getElementById('loadingState');
+  const examContainer = document.getElementById('examContainer');
+  const submitBar = document.getElementById('submitBar');
+  const dayLabel = document.getElementById('dayLabel');
+  const timerText = document.getElementById('timerText');
+  const timerDisplay = document.getElementById('timerDisplay');
+
+  async function loadCandidate(){
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/me`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        candidate = data.user;
+      }
+    } catch (err) {
+      // Not critical — the result slip just falls back to a generic label if this fails
+    }
+  }
+
+  async function loadExam(){
+    await loadCandidate();
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/questions/${day}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        loadingState.innerHTML = `<p>${data.error || 'Could not load this exam.'}</p>
+          <p style="margin-top:14px;"><a href="/dashboard.html" style="color:#6D28D9; font-weight:600;">Back to dashboard</a></p>`;
+        return;
+      }
+      if (data.questions.length === 0) {
+        loadingState.innerHTML = `<p>No questions are available for Day ${day} yet. Check back soon.</p>
+          <p style="margin-top:14px;"><a href="/dashboard.html" style="color:#6D28D9; font-weight:600;">Back to dashboard</a></p>`;
+        return;
+      }
+
+      questions = data.questions;
+      timeLeftSeconds = data.duration_minutes * 60;
+      dayLabel.textContent = `DAY ${day} · ${questions.length} QUESTIONS`;
+
+      loadingState.style.display = 'none';
+      examContainer.style.display = 'block';
+      submitBar.style.display = 'block';
+
+      renderQuestion();
+      startTimer();
+      examInProgress = true; // exit-lockout becomes active from here
+    } catch (err) {
+      loadingState.textContent = 'Could not reach the server. Please refresh and try again.';
+    }
+  }
+
+  function startTimer(){
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      timeLeftSeconds--;
+      updateTimerDisplay();
+      if (timeLeftSeconds <= 0) {
+        clearInterval(timerInterval);
+        submitExam(true);
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay(){
+    const m = Math.floor(timeLeftSeconds / 60);
+    const s = timeLeftSeconds % 60;
+    timerText.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    if (timeLeftSeconds <= 300) timerDisplay.classList.add('warning'); // last 5 minutes
+  }
+
+  function renderQuestion(){
+    const q = questions[currentIndex];
+    const answeredCount = Object.keys(answers).length;
+    const progressPct = Math.round(((currentIndex + 1) / questions.length) * 100);
+
+    let jumpGridHtml = '<div class="jump-grid">';
+    questions.forEach((qq, i) => {
+      const isAnswered = answers[qq.id] ? 'answered' : '';
+      const isCurrent = i === currentIndex ? 'current' : '';
+      jumpGridHtml += `<button class="jump-btn ${isAnswered} ${isCurrent}" data-index="${i}">${i+1}</button>`;
+    });
+    jumpGridHtml += '</div>';
+
+    let optionsHtml = '';
+    ['A','B','C','D'].forEach(letter => {
+      const text = q.options[letter];
+      if (!text) return;
+      const selected = answers[q.id] === letter ? 'selected' : '';
+      optionsHtml += `
+        <div class="option ${selected}" data-letter="${letter}">
+          <span class="letter">${letter}</span>
+          <span>${text}</span>
+        </div>`;
+    });
+
+    examContainer.innerHTML = `
+      <div class="progress-bar"><div class="progress-fill" style="width:${progressPct}%"></div></div>
+      <div class="qmeta">QUESTION ${currentIndex + 1} OF ${questions.length} · ${q.subject.toUpperCase()} · ${answeredCount} ANSWERED</div>
+      <div class="qcard">
+        <div class="qtext">${q.question_text}</div>
+        <div class="options">${optionsHtml}</div>
+      </div>
+      <div class="nav-row">
+        <button class="nav-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled' : ''}>Previous</button>
+        <button class="nav-btn primary" id="nextBtn" ${currentIndex === questions.length - 1 ? 'disabled' : ''}>Next</button>
+      </div>
+      ${jumpGridHtml}
+    `;
+
+    examContainer.querySelectorAll('.option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        answers[q.id] = opt.dataset.letter;
+        renderQuestion();
+      });
+    });
+    document.getElementById('prevBtn').addEventListener('click', () => { currentIndex--; renderQuestion(); });
+    document.getElementById('nextBtn').addEventListener('click', () => { currentIndex++; renderQuestion(); });
+    examContainer.querySelectorAll('.jump-btn').forEach(btn => {
+      btn.addEventListener('click', () => { currentIndex = parseInt(btn.dataset.index, 10); renderQuestion(); });
+    });
+
+    // Re-render any math notation in this question (e.g. fractions, exponents)
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([examContainer]);
+    }
+  }
+
+  async function submitExam(autoSubmitted){
+    if (submitted) return;
+
+    if (!autoSubmitted) {
+      const unanswered = questions.length - Object.keys(answers).length;
+      const message = unanswered > 0
+        ? `You have ${unanswered} unanswered question(s). Are you sure you want to submit your exam? This can't be undone.`
+        : `Are you sure you want to submit your exam? This can't be undone.`;
+      const proceed = confirm(message);
+      if (!proceed) return; // they cancelled — stay on the exam, nothing changes
+    }
+
+    submitted = true;
+    clearInterval(timerInterval);
+
+    document.getElementById('submitExamBtn').disabled = true;
+    document.getElementById('submitExamBtn').textContent = 'Submitting...';
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/submit-exam`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ day, answers, question_ids: questions.map(q => q.id) })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Something went wrong submitting your exam.');
+        submitted = false;
+        document.getElementById('submitExamBtn').disabled = false;
+        document.getElementById('submitExamBtn').textContent = 'Submit Exam';
+        return;
+      }
+
+      showSubmissionConfirmation(data);
+    } catch (err) {
+      alert('Could not reach the server. Your answers were not submitted — please check your connection and try again.');
+      submitted = false;
+      document.getElementById('submitExamBtn').disabled = false;
+      document.getElementById('submitExamBtn').textContent = 'Submit Exam';
+    }
+  }
+
+  function showSubmissionConfirmation(data){
+  examInProgress = false;
+  submitBar.style.display = 'none';
+  dayLabel.textContent = `DAY ${day} · SUBMITTED`;
+  timerDisplay.style.display = 'none';
+
+  const releaseDateStr = data.results_available_on
+    ? new Date(data.results_available_on).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      })
+    : 'a later date';
+
+  examContainer.innerHTML = `
+      <div class="slip">
+        <div class="slip-header">
+          <div class="brand">CODEXHUB</div>
+          <div class="sub">OOU CBT MOCK EXAM · SUBMISSION RECEIVED</div>
+        </div>
+        <div class="slip-body" style="text-align:center; padding:30px 20px;">
+          <div style="font-size:40px; margin-bottom:12px;">✅</div>
+          <div style="font-family:'IBM Plex Serif',serif; font-weight:700; font-size:19px; margin-bottom:10px;">
+            Day ${day} submitted successfully
+          </div>
+          <p style="color:var(--ink-soft); font-size:14px; line-height:1.6;">
+            Your answers have been recorded. In keeping with real exam conditions, your result isn't released immediately —
+            check back on <b>${releaseDateStr}</b> to see your score.
+          </p>
+        </div>
+        <div class="slip-footer">Attempt ${data.attempt_number} of 2 for this day.</div>
+      </div>
+      <a href="/results.html" class="result-btn">Go to My Results</a>
+      <a href="/dashboard.html" class="result-btn" style="background:white; color:var(--stamp); border:1.5px solid var(--paper-line); margin-top:10px;">Back to Dashboard</a>
+    `;
+  }
+
+  document.getElementById('submitExamBtn').addEventListener('click', () => submitExam(false));
+
+  // ---- Simple calculator ----
+  const calcToggle = document.getElementById('calcToggle');
+  const calcPanel = document.getElementById('calcPanel');
+  const calcDisplay = document.getElementById('calcDisplay');
+  let calcExpression = '';
+
+  calcToggle.addEventListener('click', () => {
+    calcPanel.classList.toggle('open');
+  });
+
+  document.querySelectorAll('.calc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.key;
+      if (key === 'C') {
+        calcExpression = '';
+      } else if (key === '=') {
+        try {
+          // Only allow digits, operators, dot, and parentheses — nothing else gets evaluated
+          if (/^[0-9+\-*/().\s]+$/.test(calcExpression)) {
+            const result = Function(`"use strict"; return (${calcExpression})`)();
+            calcExpression = String(Math.round(result * 100000) / 100000);
+          } else {
+            calcExpression = 'Error';
+          }
+        } catch (err) {
+          calcExpression = 'Error';
+        }
+      } else {
+        if (calcExpression === 'Error') calcExpression = '';
+        calcExpression += key;
+      }
+      calcDisplay.textContent = calcExpression || '0';
+    });
+  });
+
+  // ---- Exit lockout: leaving the exam counts as finishing it ----
+  // App-switch/tab-switch gets a short grace period (in case it's accidental).
+  // Back button shows a confirmation modal instead of submitting instantly.
+  let examInProgress = false; // becomes true once questions have loaded
+  const EXIT_GRACE_MS = 15000; // 15 seconds to return before it counts as leaving
+  let hiddenTimer = null;
+
+  const exitOverlay = document.getElementById('exitOverlay');
+  const exitModal = document.getElementById('exitModal');
+  const exitToast = document.getElementById('exitToast');
+
+  function openExitModal(){
+    exitOverlay.classList.add('open');
+    exitModal.classList.add('open');
+  }
+  function closeExitModal(){
+    exitOverlay.classList.remove('open');
+    exitModal.classList.remove('open');
+  }
+  function showExitToast(){
+    exitToast.classList.add('show');
+    setTimeout(() => exitToast.classList.remove('show'), 3500);
+  }
+
+  document.getElementById('exitStayBtn').addEventListener('click', closeExitModal);
+  document.getElementById('exitLeaveBtn').addEventListener('click', () => {
+    closeExitModal();
+    submitExam(true);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!examInProgress || submitted) return;
+    if (document.visibilityState === 'hidden') {
+      // Give them 15 seconds to come back before this counts as leaving.
+      hiddenTimer = setTimeout(() => {
+        if (!submitted) submitExam(true);
+      }, EXIT_GRACE_MS);
+    } else {
+      if (hiddenTimer) {
+        clearTimeout(hiddenTimer);
+        hiddenTimer = null;
+        showExitToast(); // gentle reminder — they got away with it this time
+      }
+    }
+  });
+
+  window.addEventListener('beforeunload', (e) => {
+    if (examInProgress && !submitted) {
+      e.preventDefault();
+      e.returnValue = ''; // triggers the browser's built-in "leave site?" warning
+    }
+  });
+
+  // Back button shows the confirmation modal instead of submitting right away.
+  history.pushState(null, '', window.location.href);
+  window.addEventListener('popstate', () => {
+    if (examInProgress && !submitted) {
+      history.pushState(null, '', window.location.href); // stay on this page
+      openExitModal();
+    }
+  });
+
+  loadExam();
+</script>
+
+</body>
+</html>

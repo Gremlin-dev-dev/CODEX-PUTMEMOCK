@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile — Codexhub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5EEFF;
+    --paper-line:#E4DBF5;
+    --ink:#1B1230;
+    --ink-soft:#5B5470;
+    --navy:#22103F;
+    --navy-700:#2E1065;
+    --stamp:#6D28D9;
+    --stamp-soft:#8B5CF6;
+    --brass:#E9D8FD;
+    --white:#FFFFFF;
+    --muted-on-navy:#B8A9E0;
+    --radius-sm:8px;
+    --radius:12px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'IBM Plex Sans',sans-serif; color:var(--ink);
+    background:var(--paper);
+    background-image:radial-gradient(circle, rgba(27,18,48,0.14) 1px, transparent 1px);
+    background-size:16px 16px;
+    min-height:100vh; padding-bottom:60px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ---- Header, matching dashboard.html / results.html brand cluster ---- */
+  header{
+    background:rgba(245,238,255,0.94);
+    backdrop-filter:blur(8px);
+    border-bottom:2px solid var(--ink);
+    position:sticky; top:0; z-index:10;
+  }
+  .header-inner{
+    max-width:600px; margin:0 auto; padding:12px 18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logo-badge, .school-badge{
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; overflow:hidden;
+    background:var(--white); border:1.5px solid var(--ink);
+  }
+  .logo-badge img, .school-badge img{width:100%; height:100%; object-fit:cover;}
+  .brand-text{min-width:0;}
+  .brand-name{font-family:'IBM Plex Serif',serif; font-weight:700; font-size:14px; white-space:nowrap;}
+  .brand-sub{font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--ink-soft); font-weight:500; white-space:nowrap; letter-spacing:.03em; text-transform:uppercase;}
+
+  .wrap{max-width:600px; margin:0 auto; padding:28px 18px 0;}
+  h1{font-family:'IBM Plex Serif',serif; font-size:clamp(22px,5vw,28px); font-weight:700; letter-spacing:-0.01em; margin-bottom:6px;}
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:700;
+    color:var(--stamp); margin-bottom:24px; letter-spacing:.02em; text-transform:uppercase;
+  }
+  .loading{text-align:center; color:var(--ink-soft); padding:40px 0; font-size:14px;}
+
+  /* Profile header card, styled as ticket stub */
+  .profile-card{
+    background:var(--navy); color:white; border-radius:var(--radius);
+    padding:24px 22px; margin-bottom:20px; position:relative; overflow:hidden;
+    border:1.5px solid rgba(255,255,255,0.08);
+  }
+  .profile-card::after{
+    content:""; position:absolute; left:0; right:0; bottom:0;
+    border-bottom:2px dashed rgba(255,255,255,0.16);
+  }
+  .profile-avatar{
+    width:52px; height:52px; border-radius:50%;
+    background:var(--stamp); display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Serif',serif; font-weight:700; font-size:20px;
+    margin-bottom:14px;
+  }
+  .profile-name{font-family:'IBM Plex Serif',serif; font-size:19px; font-weight:700; margin-bottom:4px;}
+  .profile-email{font-size:13px; color:var(--muted-on-navy); margin-bottom:14px;}
+  .profile-tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .profile-tag{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:600;
+    background:rgba(255,255,255,0.1); color:#D6CCE8;
+    padding:5px 10px; border-radius:6px; letter-spacing:.02em;
+  }
+
+  /* Certificate header — shown above the verdict once all 3 days are released */
+  .cert-header{
+    background:var(--navy); border-radius:var(--radius) var(--radius) 0 0;
+    padding:22px 20px 18px; text-align:center;
+    border:1.5px solid rgba(255,255,255,0.08); border-bottom:none;
+  }
+  .cert-logos{display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:12px;}
+  .cert-logo{
+    width:44px; height:44px; border-radius:50%; overflow:hidden;
+    border:2px solid rgba(255,255,255,0.25); background:white; flex-shrink:0;
+  }
+  .cert-logo img{width:100%; height:100%; object-fit:cover;}
+  .cert-x{color:var(--muted-on-navy); font-size:16px; font-weight:700;}
+  .cert-title{font-family:'IBM Plex Serif',serif; color:white; font-weight:700; font-size:15px; letter-spacing:.01em;}
+  .cert-sub{font-family:'IBM Plex Mono',monospace; color:var(--muted-on-navy); font-size:10px; letter-spacing:.06em; margin-top:4px; text-transform:uppercase;}
+
+  /* Overall verdict card */
+  .verdict-card{
+    border-radius:var(--radius); padding:26px 22px; margin-bottom:20px; text-align:center;
+    background:white; border:2px solid var(--paper-line);
+  }
+  .verdict-card.has-cert{
+    border-radius:0 0 var(--radius) var(--radius); border-top:none;
+  }
+  .verdict-tier{font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.08em; margin-bottom:10px;}
+  .verdict-score{font-family:'IBM Plex Serif',serif; font-size:38px; font-weight:700; margin-bottom:4px;}
+  .verdict-pct{font-size:13px; color:var(--ink-soft); margin-bottom:16px;}
+  .verdict-message{font-size:15px; font-weight:600; line-height:1.5;}
+  .verdict-pending{
+    background:var(--white); border:1.5px solid var(--paper-line); border-radius:var(--radius); padding:22px; margin-bottom:20px;
+    text-align:center; font-size:13.5px; color:var(--ink-soft); line-height:1.6;
+  }
+
+  /* Day cards (same pattern as results.html), styled as ticket passes */
+  .rcard{
+    background:var(--white); border:1.5px solid var(--ink); border-radius:var(--radius);
+    padding:20px; margin-bottom:14px; position:relative; overflow:hidden;
+  }
+  .rcard::before{
+    content:""; position:absolute; top:0; left:22px; right:22px; height:0;
+    border-top:2px dashed var(--paper-line);
+  }
+  .rcard.expandable{cursor:pointer;}
+  .rcard-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px;}
+  .rcard-title{font-family:'IBM Plex Serif',serif; font-size:16px; font-weight:700;}
+  .rbadge{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:999px;
+    white-space:nowrap; letter-spacing:.03em; text-transform:uppercase;
+  }
+  .rbadge.not_attempted{background:var(--paper); color:var(--ink-soft); border:1px solid var(--paper-line);}
+  .rbadge.pending{background:#FEF3C7; color:#B45309;}
+  .rbadge.released{background:#DCFCE7; color:#16A34A;}
+  .rcard-info{font-size:13px; color:var(--ink-soft); line-height:1.6;}
+  .rscore-line{display:flex; align-items:baseline; gap:8px; margin-top:8px;}
+  .rscore-line .score{font-family:'IBM Plex Serif',serif; font-size:20px; font-weight:700; color:var(--stamp);}
+  .rscore-line .pct{font-size:12.5px; color:var(--ink-soft);}
+
+  .expand-hint{
+    display:flex; align-items:center; gap:5px; margin-top:10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px; font-weight:600; color:var(--stamp);
+  }
+  .expand-hint .chevron{transition:transform .2s ease; display:inline-block;}
+  .rcard.open .expand-hint .chevron{transform:rotate(180deg);}
+
+  .subject-breakdown{
+    max-height:0; overflow:hidden; transition:max-height .25s ease;
+  }
+  .rcard.open .subject-breakdown{max-height:600px; margin-top:14px; padding-top:14px; border-top:1px solid var(--paper-line);}
+  .subject-breakdown h4{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;}
+  .subject-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:9px 0; border-bottom:1px solid var(--paper-line); font-size:13px;
+  }
+  .subject-row:last-child{border-bottom:none;}
+  .subject-bar-track{flex:1; height:5px; background:var(--paper-line); border-radius:99px; margin:0 10px; overflow:hidden;}
+  .subject-bar-fill{height:100%; background:var(--stamp-soft); border-radius:99px;}
+  .subject-score{font-weight:700; font-size:12.5px; white-space:nowrap; min-width:36px; text-align:right;}
+
+  .section-label{font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:700; color:var(--stamp); text-transform:uppercase; letter-spacing:.06em; margin:24px 0 12px;}
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-badge"><img src="blogo.png" alt="Codexhub logo"></div>
+    <div class="school-badge"><img src="slogo.jpg" alt="OOU logo"></div>
+    <div class="brand-text">
+      <div class="brand-name">CodexHub</div>
+      <div class="brand-sub">OOU PUTME Mock Exam</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>My Profile</h1>
+  <a href="/dashboard.html" class="back-link">← Back to Dashboard</a>
+
+  <div id="loadingState" class="loading">Loading your profile...</div>
+  <div id="profileContainer" style="display:none;"></div>
+</div>
+
+<script>
+  const API_BASE_URL = 'https://codexhub-putme.onrender.com'; // same URL as your other pages
+
+  const token = localStorage.getItem('codexhub_token');
+  if (!token) { window.location.href = '/index.html'; }
+
+  const DAY_TITLES = { 1: "Diagnostic Mock", 2: "Full Exam Simulation", 3: "Review & Final Drill" };
+
+  async function loadProfile(){
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/profile`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        document.getElementById('loadingState').textContent = data.error || 'Something went wrong.';
+        return;
+      }
+
+      render(data);
+    } catch (err) {
+      document.getElementById('loadingState').textContent = 'Could not reach the server. Please refresh.';
+    }
+  }
+
+  function render(data){
+    document.getElementById('loadingState').style.display = 'none';
+    const container = document.getElementById('profileContainer');
+    const user = data.user;
+    const initials = (user.full_name || 'A').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+    const department = user.department ? user.department.charAt(0).toUpperCase() + user.department.slice(1) : '—';
+
+    let html = `
+      <div class="profile-card">
+        <div class="profile-avatar">${initials}</div>
+        <div class="profile-name">${user.full_name}</div>
+        <div class="profile-email">${user.email}</div>
+        <div class="profile-email" style="margin-top:2px;">JAMB No: ${user.jamb_number}</div>
+        <div class="profile-tags">
+          <span class="profile-tag">${department}</span>
+          ${(user.subjects || []).map(s => `<span class="profile-tag">${s}</span>`).join('')}
+        </div>
+      </div>
+    `;
+
+    if (data.overall) {
+      const o = data.overall;
+      html += `
+        <div class="cert-header">
+          <div class="cert-logos">
+            <div class="cert-logo"><img src="blogo.png" alt="Codexhub logo"></div>
+            <span class="cert-x">×</span>
+            <div class="cert-logo"><img src="slogo.jpg" alt="OOU logo"></div>
+          </div>
+          <div class="cert-title">Certificate of Completion</div>
+          <div class="cert-sub">OOU PUTME Mock Exam · 3-Day Program</div>
+        </div>
+        <div class="verdict-card has-cert" style="border-color:${o.color};">
+          <div class="verdict-tier" style="color:${o.color};">OVERALL READINESS</div>
+          <div class="verdict-score" style="color:${o.color};">${o.percentage}%</div>
+          <div class="verdict-pct">${o.total_score} / ${o.total_questions} across all 3 days</div>
+          <div class="verdict-message">${o.message}</div>
+        </div>
+      `;
+    } else {
+      html += `
+        <div class="verdict-pending">
+          Complete and wait for the results of all 3 days to see your overall readiness verdict.
+        </div>
+      `;
+    }
+
+    html += `<div class="section-label">Day-by-Day Results</div>`;
+
+    data.days.forEach(d => {
+      const badgeLabel = { not_attempted: 'Not Attempted', pending: 'Pending', released: 'Released' }[d.status];
+      let body = '';
+      const isExpandable = d.status === 'released';
+
+      if (d.status === 'not_attempted') {
+        body = `<div class="rcard-info">You haven't taken Day ${d.day} yet.</div>`;
+      } else if (d.status === 'pending') {
+        const dateStr = new Date(d.release_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        body = `<div class="rcard-info">Submitted. Result available on <b>${dateStr}</b>.</div>`;
+      } else {
+        const r = d.result;
+        let subjectsHtml = '';
+        (r.subject_breakdown || []).forEach(s => {
+          const pct = s.total ? Math.round((s.correct / s.total) * 100) : 0;
+          subjectsHtml += `
+            <div class="subject-row">
+              <span>${s.subject}</span>
+              <div class="subject-bar-track"><div class="subject-bar-fill" style="width:${pct}%"></div></div>
+              <span class="subject-score">${s.correct}/${s.total}</span>
+            </div>`;
+        });
+        body = `
+          <div class="rcard-info">Best of ${d.attempts_used} attempt${d.attempts_used > 1 ? 's' : ''}</div>
+          <div class="rscore-line">
+            <span class="score">${r.score}/${r.total_questions}</span>
+            <span class="pct">${r.percentage}%</span>
+          </div>
+          <div class="expand-hint"><span class="chevron">▾</span> Tap to see subject-by-subject breakdown</div>
+          <div class="subject-breakdown">
+            <h4>Subject Breakdown</h4>
+            ${subjectsHtml}
+          </div>
+        `;
+      }
+      html += `
+        <div class="rcard ${isExpandable ? 'expandable' : ''}">
+          <div class="rcard-top">
+            <div class="rcard-title">Day ${d.day} — ${DAY_TITLES[d.day]}</div>
+            <span class="rbadge ${d.status}">${badgeLabel}</span>
+          </div>
+          ${body}
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+    container.style.display = 'block';
+
+    // Tap an expandable (released) day card to reveal its subject breakdown
+    container.querySelectorAll('.rcard.expandable').forEach(card => {
+      card.addEventListener('click', () => card.classList.toggle('open'));
+    });
+  }
+
+  loadProfile();
+</script>
+
+</body>
+</html>

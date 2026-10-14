@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Question Review — Codexhub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+<style>
+  :root{
+    --violet-900:#22103F; --violet-700:#5B21B6; --violet-500:#8B5CF6;
+    --lilac-200:#E9D8FD; --lilac-100:#F5EEFF;
+    --ink:#1B1230; --ink-soft:#5B5470; --line:#E4DBF5;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter',sans-serif; color:var(--ink);
+    background:var(--lilac-100); min-height:100vh; padding-bottom:60px;
+  }
+  .topbar{
+    position:sticky; top:0; z-index:10;
+    background:var(--ink); color:white; padding:16px 18px;
+  }
+  .topbar h1{font-family:'Space Grotesk',sans-serif; font-size:18px; margin-bottom:10px;}
+  .day-tabs{display:flex; gap:8px;}
+  .day-tab{
+    padding:8px 16px; border-radius:999px; background:rgba(255,255,255,0.1);
+    color:#D6CCE8; font-size:13px; font-weight:600; cursor:pointer; border:none; font-family:inherit;
+  }
+  .day-tab.active{background:var(--violet-500); color:white;}
+  .wrap{max-width:720px; margin:0 auto; padding:20px 16px;}
+  .loading{text-align:center; color:var(--ink-soft); padding:60px 0;}
+  .subject-heading{
+    font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:700;
+    color:var(--violet-700); margin:28px 0 12px; padding-bottom:6px;
+    border-bottom:2px solid var(--violet-500);
+  }
+  .subject-heading:first-child{margin-top:0;}
+  .qcard{
+    background:white; border:1px solid var(--line); border-radius:12px;
+    padding:16px; margin-bottom:12px;
+  }
+  .qmeta{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ink-soft); margin-bottom:8px;}
+  .qtext{font-size:14.5px; line-height:1.5; margin-bottom:12px; font-weight:500;}
+  .opt{
+    display:flex; gap:8px; padding:7px 10px; border-radius:8px; font-size:13.5px;
+    margin-bottom:5px; border:1px solid var(--line);
+  }
+  .opt.correct{background:#DCFCE7; border-color:#16A34A; font-weight:600;}
+  .opt .letter{font-weight:700; color:var(--violet-700); flex-shrink:0;}
+  .flag-note{
+    margin-top:10px; font-size:11.5px; color:#B45309; background:#FEF3C7;
+    padding:6px 10px; border-radius:6px; display:none;
+  }
+  .qcard.suspect .flag-note{display:block;}
+  .qcard.suspect{border-color:#F59E0B;}
+  .count-banner{
+    background:white; border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; font-size:13px; color:var(--ink-soft); margin-bottom:8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>🔍 Question Review (Admin)</h1>
+  <div class="day-tabs">
+    <button class="day-tab active" data-day="1">Day 1</button>
+    <button class="day-tab" data-day="2">Day 2</button>
+    <button class="day-tab" data-day="3">Day 3</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="loadingState" class="loading">Loading...</div>
+  <div id="content" style="display:none;"></div>
+</div>
+
+<script>
+  const API_BASE_URL = 'https://codexhub-putme.onrender.com'; // same URL as your other pages
+
+  const token = localStorage.getItem('codexhub_token');
+  if (!token) { window.location.href = '/index.html'; }
+
+  const loadingState = document.getElementById('loadingState');
+  const content = document.getElementById('content');
+  let currentDay = 1;
+
+  async function loadDay(day){
+    currentDay = day;
+    document.querySelectorAll('.day-tab').forEach(t => t.classList.toggle('active', parseInt(t.dataset.day) === day));
+    content.style.display = 'none';
+    loadingState.style.display = 'block';
+    loadingState.textContent = 'Loading...';
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/admin/questions/${day}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        loadingState.textContent = data.error || 'Something went wrong.';
+        return;
+      }
+
+      render(data);
+    } catch (err) {
+      loadingState.textContent = 'Could not reach the server.';
+    }
+  }
+
+  function render(data){
+    loadingState.style.display = 'none';
+    content.style.display = 'block';
+
+    let html = `<div class="count-banner">${data.count} question${data.count !== 1 ? 's' : ''} loaded for Day ${data.day}</div>`;
+
+    // Group by subject
+    const bySubject = {};
+    data.questions.forEach(q => {
+      if (!bySubject[q.subject]) bySubject[q.subject] = [];
+      bySubject[q.subject].push(q);
+    });
+
+    Object.keys(bySubject).sort().forEach(subject => {
+      html += `<div class="subject-heading">${subject} (${bySubject[subject].length})</div>`;
+      bySubject[subject].forEach(q => {
+        // Quick heuristic flag: literal $ signs left in the text (won't render as math here)
+        const hasDollarMath = /\$[^$]*\$/.test(q.question_text) ||
+          Object.values(q.options).some(o => /\$[^$]*\$/.test(o));
+        const suspectClass = hasDollarMath ? 'suspect' : '';
+
+        let optsHtml = '';
+        ['A','B','C','D'].forEach(letter => {
+          const text = q.options[letter];
+          if (!text) return;
+          const isCorrect = q.correct_option === letter;
+          optsHtml += `<div class="opt ${isCorrect ? 'correct' : ''}"><span class="letter">${letter}</span><span>${text}</span></div>`;
+        });
+
+        html += `
+          <div class="qcard ${suspectClass}">
+            <div class="qmeta">${q.external_id}</div>
+            <div class="qtext">${q.question_text}</div>
+            ${optsHtml}
+            <div class="flag-note">⚠️ Contains literal $ signs — may not render as math with the current MathJax setup. Check this one visually.</div>
+          </div>
+        `;
+      });
+    });
+
+    content.innerHTML = html;
+
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([content]);
+    }
+  }
+
+  document.querySelectorAll('.day-tab').forEach(tab => {
+    tab.addEventListener('click', () => loadDay(parseInt(tab.dataset.day)));
+  });
+
+  loadDay(1);
+</script>
+
+</body>
+</html>

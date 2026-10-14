@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Codexhub's 3-day intensive CBT mock exam for Olabisi Onabanjo University (OOU) aspirants.">
+<title>CodexHub — OOU CBT Mock Exam (3-Day Intensive)</title>
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://codexhub-putme-1.onrender.com/">
+<meta property="og:title" content="CodexHub — OOU CBT Mock Exam (3-Day Intensive)">
+<meta property="og:description" content="Codexhub's 3-day intensive CBT mock exam for Olabisi Onabanjo University (OOU) aspirants.">
+<meta property="og:image" content="https://codexhub-putme-1.onrender.com/sam.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter/X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CodexHub — OOU CBT Mock Exam (3-Day Intensive)">
+<meta name="twitter:description" content="Codexhub's 3-day intensive CBT mock exam for Olabisi Onabanjo University (OOU) aspirants.">
+<meta name="twitter:image" content="https://codexhub-putme-1.onrender.com/sam.jpg">
+
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#5B21B6">
+<link rel="apple-touch-icon" href="/icons/blogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']]
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+  /* ============ TOKENS (violet palette, ticket-card structure) ============ */
+  :root{
+    --paper:#F5EEFF;
+    --paper-dim:#EFE5FC;
+    --paper-line:#E4DBF5;
+    --ink:#1B1230;
+    --ink-soft:#5B5470;
+    --navy:#22103F;
+    --navy-700:#2E1065;
+    --navy-600:#5B21B6;
+    --stamp:#6D28D9;
+    --stamp-soft:#8B5CF6;
+    --brass:#E9D8FD;
+    --white:#FFFFFF;
+    --muted-on-navy:#B8A9E0;
+    --radius-sm:8px;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'IBM Plex Sans',sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'IBM Plex Serif',serif; letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+  img{display:block; max-width:100%; height:auto;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 18px;}
+  a:focus-visible, button:focus-visible{outline:3px solid var(--stamp); outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  .dot-field{
+    background-image:radial-gradient(circle, rgba(27,18,48,0.14) 1px, transparent 1px);
+    background-size:16px 16px;
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:13px 22px; border-radius:999px;
+    font-weight:600; font-size:14px;
+    transition:transform .15s ease, box-shadow .15s ease;
+    width:100%;
+  }
+  @media (min-width:560px){ .btn{width:auto;} }
+  .btn-primary{background:var(--stamp); color:var(--white); box-shadow:0 4px 14px rgba(109,40,217,0.28);}
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 8px 20px rgba(109,40,217,0.35);}
+  .btn-whatsapp{background:var(--navy); color:var(--white);}
+  .btn-whatsapp:hover{transform:translateY(-1px); background:var(--navy-700);}
+  .btn-whatsapp svg{width:16px; height:16px; flex-shrink:0;}
+
+  /* ============ HEADER ============ */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(245,238,255,0.94);
+    backdrop-filter:blur(8px);
+    border-bottom:2px solid var(--ink);
+  }
+  .header-inner{display:flex; align-items:center; justify-content:space-between; padding:12px 0;}
+  .brand-cluster{display:flex; align-items:center; gap:10px; min-width:0;}
+  .logo-badge, .school-badge{
+    width:36px; height:36px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; overflow:hidden;
+    background:var(--white); border:1.5px solid var(--ink);
+  }
+  .logo-badge img, .school-badge img{width:100%; height:100%; object-fit:cover;}
+  .brand-text{min-width:0;}
+  .brand-name{font-family:'IBM Plex Serif',serif; font-weight:700; font-size:15px; white-space:nowrap;}
+  .brand-sub{font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--ink-soft); font-weight:500; white-space:nowrap; letter-spacing:.03em; text-transform:uppercase;}
+
+  .menu-toggle{display:flex; flex-direction:column; justify-content:center; gap:5px; width:38px; height:38px; flex-shrink:0;}
+  .menu-toggle span{display:block; width:22px; height:2px; background:var(--ink); transition:transform .2s ease, opacity .2s ease;}
+  .menu-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menu-toggle.open span:nth-child(2){opacity:0;}
+  .menu-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  .nav-panel{
+    position:fixed; inset:0 0 0 auto; top:61px;
+    width:100%; max-width:320px; height:calc(100vh - 61px);
+    background:var(--paper); border-left:2px solid var(--ink);
+    padding:28px 24px; display:flex; flex-direction:column; gap:20px;
+    transform:translateX(100%); transition:transform .25s ease; z-index:49;
+  }
+  .nav-panel.open{transform:translateX(0);}
+  .nav-panel a.nav-link{font-size:16px; font-weight:600; color:var(--ink);}
+  .nav-panel .btn{margin-top:8px;}
+  .nav-overlay{position:fixed; inset:0; background:rgba(34,16,63,0.35); opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:48;}
+  .nav-overlay.open{opacity:1; pointer-events:auto;}
+
+  @media (min-width:820px){
+    .menu-toggle{display:none;}
+    .nav-panel{
+      position:static; width:auto; height:auto; max-width:none;
+      transform:none; border:none; padding:0; flex-direction:row; align-items:center; gap:28px;
+    }
+    .nav-overlay{display:none;}
+    .nav-panel .btn{margin-top:0; width:auto;}
+    .brand-name{font-size:16px;}
+    .brand-sub{font-size:10px;}
+    .logo-badge, .school-badge{width:40px; height:40px;}
+  }
+
+  /* ============ HERO ============ */
+  .hero{padding:40px 0 52px;}
+  .hero-kicker{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600;
+    color:var(--stamp); letter-spacing:.06em; text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  .hero-kicker .dot{width:7px; height:7px; border-radius:50%; background:var(--stamp); flex-shrink:0;}
+  .hero h1{font-size:clamp(28px, 7vw, 48px); font-weight:700; line-height:1.14; margin-bottom:16px;}
+  .hero p.lead{font-size:15.5px; color:var(--ink-soft); max-width:460px; margin-bottom:26px;}
+  .hero-ctas{display:flex; flex-direction:column; gap:12px; margin-bottom:20px; max-width:360px;}
+  .hero-note{font-size:12.5px; color:var(--ink-soft); line-height:1.6;}
+  .hero-note b{color:var(--ink);}
+  .hero-grid{display:flex; flex-direction:column; gap:36px;}
+  @media (min-width:900px){
+    .hero{padding:64px 0 84px;}
+    .hero-grid{flex-direction:row; align-items:flex-start; gap:48px;}
+    .hero-grid > *{flex:1;}
+    .hero-ctas{flex-direction:row; max-width:none;}
+  }
+
+  /* ---- Signature: admission ticket ---- */
+  .ticket{
+    background:var(--navy); color:var(--white);
+    border-radius:16px; overflow:hidden;
+    box-shadow:0 22px 46px rgba(34,16,63,0.32);
+    border:1px solid rgba(255,255,255,0.08);
+    display:flex; flex-direction:column;
+  }
+  @media (min-width:600px){ .ticket{flex-direction:row;} }
+
+  .ticket-stub{
+    padding:18px 20px; display:flex; flex-direction:row; justify-content:space-between; align-items:center;
+    border-bottom:0 dashed rgba(255,255,255,0.28);
+    position:relative;
+  }
+  @media (min-width:600px){
+    .ticket-stub{
+      flex-direction:column; align-items:flex-start; justify-content:space-between;
+      width:120px; flex-shrink:0; gap:14px;
+      border-bottom:none; border-right:2px dashed rgba(255,255,255,0.28);
+    }
+  }
+  .ticket-serial{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted-on-navy); letter-spacing:.03em; line-height:1.7;}
+  .ticket-serial b{display:block; color:var(--white); font-size:11.5px;}
+  .ticket-mark{
+    width:34px; height:34px; border-radius:50%;
+    border:1.5px solid rgba(255,255,255,0.35);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; color:var(--muted-on-navy);
+    letter-spacing:.02em; text-align:center;
+  }
+
+  .ticket-main{padding:18px 18px 20px; flex:1; min-width:0;}
+  .ticket-tag{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted-on-navy); letter-spacing:.05em; text-transform:uppercase;}
+  .ticket-timer{
+    display:inline-flex; align-items:center; gap:7px;
+    background:rgba(109,40,217,0.22); border:1px solid rgba(109,40,217,0.55);
+    padding:5px 11px; border-radius:8px; font-size:12.5px; font-weight:600; color:#E4D4FA;
+    float:right;
+  }
+  .ticket-timer .pulse{width:7px; height:7px; border-radius:50%; background:var(--stamp-soft); animation:pulse 1.4s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.35;}}
+  .ticket-top{display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; margin-bottom:16px;}
+
+  .ticket-progress{height:5px; border-radius:99px; background:rgba(255,255,255,0.12); overflow:hidden; margin-bottom:16px;}
+  .ticket-progress-fill{height:100%; width:23%; border-radius:99px; background:var(--stamp-soft);}
+  .ticket-qnum{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted-on-navy); margin-bottom:8px; font-weight:600; letter-spacing:.03em;}
+  .ticket-question{font-size:14.5px; line-height:1.5; margin-bottom:16px; color:#F1EEFA;}
+  .cbt-options{display:flex; flex-direction:column; gap:8px; margin-bottom:18px;}
+  .cbt-option{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 12px; border-radius:9px;
+    border:1px solid rgba(255,255,255,0.14);
+    font-size:13px; color:#D6CCE8;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .cbt-option:hover{border-color:var(--stamp-soft); background:rgba(109,40,217,0.1);}
+  .cbt-option .letter{
+    width:20px; height:20px; border-radius:50%; background:rgba(255,255,255,0.08);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:700; color:var(--muted-on-navy); flex-shrink:0;
+  }
+  .cbt-option.selected{border-color:var(--stamp-soft); background:rgba(109,40,217,0.16);}
+  .cbt-option.selected .letter{background:var(--stamp-soft); color:var(--white);}
+  .ticket-footer{display:flex; justify-content:space-between; align-items:center; padding-top:14px; border-top:1px solid rgba(255,255,255,0.1);}
+  .ticket-nav-btn{font-size:12px; font-weight:600; color:var(--muted-on-navy); padding:8px 13px; border-radius:8px; background:rgba(255,255,255,0.06);}
+  .ticket-nav-btn.next{background:var(--stamp); color:var(--white);}
+
+  /* ============ SECTIONS SHARED ============ */
+  section{padding:52px 0;}
+  @media (min-width:820px){ section{padding:76px 0;} }
+  .section-head{max-width:620px; margin:0 auto 34px;}
+  @media (min-width:820px){ .section-head{margin-bottom:46px;} }
+  .kicker{font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:700; color:var(--stamp); letter-spacing:.07em; text-transform:uppercase; margin-bottom:10px;}
+  .section-head h2{font-size:clamp(23px,5vw,33px); font-weight:700; margin-bottom:12px;}
+  .section-head p{color:var(--ink-soft); font-size:14.5px; max-width:520px;}
+
+  /* ============ INSTRUCTIONS ============ */
+  .instructions{border-top:2px solid var(--ink); border-bottom:2px solid var(--ink);}
+  .instruction-list{display:flex; flex-direction:column;}
+  .instruction{
+    display:grid; grid-template-columns:44px 1fr; gap:16px;
+    padding:20px 0; border-top:1px solid var(--paper-line);
+  }
+  .instruction:first-child{border-top:none;}
+  .instruction-num{font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:700; color:var(--stamp);}
+  .instruction h3{font-size:15.5px; margin-bottom:6px; font-weight:600;}
+  .instruction p{font-size:13.5px; color:var(--ink-soft); line-height:1.6; max-width:560px;}
+  @media (min-width:760px){
+    .instruction-list{display:grid; grid-template-columns:1fr 1fr; column-gap:40px;}
+    .instruction{border-top:1px solid var(--paper-line);}
+    .instruction:nth-child(2){border-top:none;}
+  }
+
+  /* ============ 3-DAY PROGRAM ============ */
+  .program-section{background:var(--navy); color:var(--white);}
+  .program-section .kicker{color:var(--stamp-soft);}
+  .program-section .section-head p{color:var(--muted-on-navy);}
+  .program-track{position:relative;}
+  .day-row{display:grid; grid-template-columns:1fr; gap:14px;}
+  @media (min-width:820px){ .day-row{grid-template-columns:repeat(3,1fr); gap:18px;} }
+  .day-pass{
+    background:var(--navy-700); border:1px solid rgba(255,255,255,0.12); border-radius:12px;
+    padding:22px 20px; position:relative;
+  }
+  .day-pass::before{
+    content:""; position:absolute; top:0; left:22px; right:22px; height:0;
+    border-top:2px dashed rgba(255,255,255,0.22);
+  }
+  .day-num{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--stamp-soft); font-weight:700; margin-bottom:12px; letter-spacing:.05em;}
+  .day-pass h3{font-size:17px; margin-bottom:10px; font-weight:600;}
+  .day-pass p{font-size:13.5px; color:var(--muted-on-navy); line-height:1.6;}
+
+  /* ============ ACCESS / SIGNUP ============ */
+  .access{border-top:2px solid var(--ink);}
+  .access-grid{display:grid; grid-template-columns:1fr; gap:20px;}
+  @media (min-width:820px){ .access-grid{grid-template-columns:1fr 1fr;} }
+  .access-card{background:var(--white); border:1.5px solid var(--ink); border-radius:var(--radius); padding:26px 22px; position:relative; overflow:hidden;}
+  @media (min-width:560px){ .access-card{padding:32px 28px;} }
+  .access-card.highlight{border-color:var(--stamp);}
+
+  .stamp-badge{
+    position:absolute; top:20px; right:20px;
+    width:64px; height:64px; border-radius:50%;
+    border:2px solid var(--stamp); color:var(--stamp);
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    font-family:'IBM Plex Mono',monospace; font-size:8.5px; font-weight:700; letter-spacing:.03em;
+    transform:rotate(-10deg); line-height:1.25; opacity:.85;
+  }
+  .stamp-badge.pending{border-style:dashed; color:var(--ink-soft); border-color:var(--ink-soft);}
+
+  .access-tag{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:700; padding:5px 12px; border-radius:999px; margin-bottom:14px; letter-spacing:.03em; text-transform:uppercase;}
+  .access-tag.invited{background:var(--brass); color:var(--stamp);}
+  .access-tag.open{background:var(--navy); color:var(--white);}
+  .access-card h3{font-size:18px; margin-bottom:10px;}
+  .access-card p{font-size:14px; color:var(--ink-soft); margin-bottom:20px; line-height:1.6; max-width:340px;}
+  .price-row{display:flex; align-items:baseline; gap:8px; margin-bottom:20px;}
+  .price-row .amount{font-family:'IBM Plex Serif',serif; font-size:28px; font-weight:700;}
+  .price-row .old-amount{font-size:15px; color:var(--ink-soft); text-decoration:line-through; font-weight:500;}
+  .price-row .period{font-size:12.5px; color:var(--ink-soft);}
+  .price-note{font-size:12px; color:var(--ink-soft); margin-top:14px;}
+
+  form.signup{display:flex; flex-direction:column; gap:12px; max-width:360px;}
+  form.signup input{padding:13px 15px; border-radius:var(--radius-sm); border:1.5px solid var(--paper-line); font-size:14.5px; font-family:inherit; width:100%; background:var(--paper);}
+  form.signup input:focus{outline:none; border-color:var(--stamp);}
+  .form-msg{font-size:12.5px; margin-top:2px; min-height:18px;}
+  .form-msg.error{color:#B3261E;}
+  .form-msg.success{color:#1E7A3C;}
+
+  /* ============ FOOTER ============ */
+  footer{background:var(--navy); color:var(--muted-on-navy); padding:38px 0 22px; border-top:4px solid var(--stamp);}
+  .footer-inner{display:flex; flex-direction:column; gap:18px; padding-bottom:22px; border-bottom:1px solid rgba(255,255,255,0.12); margin-bottom:16px;}
+  @media (min-width:760px){ .footer-inner{flex-direction:row; justify-content:space-between; align-items:flex-start; gap:24px;} }
+  .footer-disclaimer{font-size:11.5px; color:#9A8CBE; max-width:520px; line-height:1.6;}
+  .footer-bottom{display:flex; flex-direction:column; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#9A8CBE;}
+  @media (min-width:560px){ .footer-bottom{flex-direction:row; justify-content:space-between;} }
+
+
+  .countdown-hang{
+  position:relative;
+  display:flex; flex-direction:column; align-items:center;
+  padding-top:26px; margin-bottom:-10px;
+}
+.rope{
+  position:absolute; top:0; width:2px; height:26px;
+  background:repeating-linear-gradient(180deg, var(--ink-soft) 0 4px, transparent 4px 7px);
+  opacity:.55;
+}
+.rope-left{ left:calc(50% - 78px); transform:rotate(4deg); transform-origin:top; }
+.rope-right{ right:calc(50% - 78px); transform:rotate(-4deg); transform-origin:top; }
+.countdown-board{
+  position:relative;
+  background:var(--navy); color:white;
+  border:1.5px solid rgba(255,255,255,0.15);
+  border-radius:10px;
+  padding:16px 20px 18px;
+  box-shadow:0 14px 34px rgba(34,16,63,0.35);
+  transform-origin:top center;
+  animation:boardSway 4.5s ease-in-out infinite;
+  max-width:360px;
+  width:100%;
+}
+@keyframes boardSway{
+  0%,100%{ transform:rotate(-1deg); }
+  50%{ transform:rotate(1deg); }
+}
+@media (prefers-reduced-motion: reduce){
+  .countdown-board{ animation:none; }
+}
+.board-pin{
+  position:absolute; top:-5px; left:50%; transform:translateX(-50%);
+  width:9px; height:9px; border-radius:50%;
+  background:var(--stamp-soft); box-shadow:0 0 0 3px rgba(139,92,246,0.25);
+}
+.board-label{
+  font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:700;
+  letter-spacing:.08em; text-align:center; color:var(--muted-on-navy);
+  margin-bottom:10px;
+}
+.countdown-board.is-live .board-label{ color:#86EFAC; }
+.board-timer{
+  display:flex; align-items:baseline; justify-content:center; gap:3px;
+}
+.time-unit{ display:flex; flex-direction:column; align-items:center; min-width:34px; }
+.time-unit span{
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:22px; line-height:1;
+}
+.time-unit.ms span{ font-size:15px; color:var(--muted-on-navy); }
+.time-unit small{
+  font-family:'IBM Plex Mono',monospace; font-size:8.5px; color:var(--muted-on-navy);
+  text-transform:uppercase; letter-spacing:.04em; margin-top:3px;
+}
+.time-sep{ font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:20px; color:var(--muted-on-navy); align-self:flex-start; margin-top:1px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-inner">
+    <div class="brand-cluster">
+      <div class="logo-badge"><img src="blogo.png" alt="Codexhub logo"></div>
+      <div class="school-badge"><img src="slogo.jpg" alt="OOU logo"></div>
+      <div class="brand-text">
+        <div class="brand-name">CodexHub</div>
+        <div class="brand-sub">OOU PUTME Mock Exam</div>
+      </div>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav-panel" id="navPanel">
+  <a href="#why" class="nav-link">Why this Mock</a>
+  <a href="#program" class="nav-link">3-Day Program</a>
+  <a href="#access" class="nav-link">Access</a>
+  <a href="/login.html" class="nav-link">Log In</a>
+  <a href="#access" class="btn btn-primary">Sign Up</a>
+</nav>
+  </div>
+</header>
+
+<div class="nav-overlay" id="navOverlay"></div>
+
+<div class="countdown-hang">
+  <div class="rope rope-left"></div>
+  <div class="rope rope-right"></div>
+  <div class="countdown-board" id="countdownBoard">
+    <div class="board-pin"></div>
+    <div class="board-label" id="countdownLabel">PUTME MOCK BEGINS IN</div>
+    <div class="board-timer">
+      <div class="time-unit"><span id="cdDays">00</span><small>Days</small></div>
+      <div class="time-sep">:</div>
+      <div class="time-unit"><span id="cdHours">00</span><small>Hrs</small></div>
+      <div class="time-sep">:</div>
+      <div class="time-unit"><span id="cdMins">00</span><small>Min</small></div>
+      <div class="time-sep">:</div>
+      <div class="time-unit"><span id="cdSecs">00</span><small>Sec</small></div>
+      <div class="time-sep">.</div>
+      <div class="time-unit ms"><span id="cdMs">000</span><small>ms</small></div>
+    </div>
+  </div>
+</div>
+
+<main>
+  
+<main>
+  <section class="hero dot-field">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="hero-kicker"><span class="dot"></span> Limited to invited aspirants only</div>
+        <h1>Sit OOU's real CBT before you sit OOU's real CBT.</h1>
+        <p class="lead">A 3-day intensive mock exam built to look, feel and time exactly like Olabisi Onabanjo University's Computer-Based Test — so exam day has zero surprises left in it.</p>
+        <div class="hero-ctas">
+          <a href="#access" class="btn btn-primary">Sign Up With Your Email</a>
+          <a href="https://wa.me/2349131778249" target="_blank" rel="noopener" class="btn btn-whatsapp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2Zm0 18.06h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.14.82.84-3.06-.2-.31a8.2 8.2 0 0 1-1.26-4.37c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.55-3.7 8.24-8.25 8.24Z"/></svg>
+            No email invite? WhatsApp Us
+          </a>
+        </div>
+        <div class="hero-note">Runs on 25th to 27th · <b>₦2,000</b> per seat · Message on WhatsApp if you weren't sent an email</div>
+      </div>
+
+      <div class="ticket" aria-hidden="true">
+        <div class="ticket-stub">
+          <div class="ticket-serial">SESSION<b>OOU-PUTME-2026</b></div>
+          <div class="ticket-mark">ADMIT<br>ONE</div>
+        </div>
+        <div class="ticket-main">
+          <div class="ticket-top">
+            <span class="ticket-tag">Live mock preview</span>
+            <div class="ticket-timer"><span class="pulse"></span><span id="cbtClock" class="mono">00:30:17</span></div>
+          </div>
+          <div class="ticket-progress"><div class="ticket-progress-fill"></div></div>
+          <div class="ticket-qnum">QUESTION 14 OF 50 · MATHEMATICS</div>
+          <div class="ticket-question">If \(y=3x^4-5x^3+2x^2-7x+4\), find \(\frac{dy}{dx}\) at \(x=2\).</div>
+          <div class="cbt-options">
+            <div class="cbt-option"><span class="letter">A</span> 42</div>
+            <div class="cbt-option"><span class="letter">B</span> 50</div>
+            <div class="cbt-option selected"><span class="letter">C</span> 46</div>
+            <div class="cbt-option"><span class="letter">D</span> 38</div>
+          </div>
+          <div class="ticket-footer">
+            <span class="ticket-nav-btn">Previous</span>
+            <span class="ticket-nav-btn next">Next Question</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" class="instructions">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Before you begin</div>
+        <h2>Practice tests don't fail people. Unfamiliar screens do.</h2>
+        <p>Most aspirants lose marks to the interface, not the syllabus. Read this the way you'd read the instructions printed at the top of a real exam paper.</p>
+      </div>
+      <div class="instruction-list">
+        <div class="instruction">
+          <div class="instruction-num mono">01</div>
+          <div>
+            <h3>Real CBT interface</h3>
+            <p>The exact layout, navigation and question flow you'll meet on the real OOU screening day.</p>
+          </div>
+        </div>
+        <div class="instruction">
+          <div class="instruction-num mono">02</div>
+          <div>
+            <h3>Strict timing</h3>
+            <p>Every section is clocked like the real thing, so pacing becomes instinct, not guesswork.</p>
+          </div>
+        </div>
+        <div class="instruction">
+          <div class="instruction-num mono">03</div>
+          <div>
+            <h3>Instant scoring</h3>
+            <p>See your score and weak subject areas the moment you submit — no waiting, no guessing.</p>
+          </div>
+        </div>
+        <div class="instruction">
+          <div class="instruction-num mono">04</div>
+          <div>
+            <h3>Pattern-matched questions</h3>
+            <p>Built around the subject spread and question style aspirants actually meet on the day.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="program" class="program-section">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">The 3-day program</div>
+        <h2>Three days. One clear path to exam-day confidence.</h2>
+        <p>Each day builds on the last — from finding your gaps to closing them under real exam pressure.</p>
+      </div>
+      <div class="program-track">
+        <div class="day-row">
+          <div class="day-pass">
+            <div class="day-num mono">DAY 01 · DIAGNOSTIC</div>
+            <h3>Diagnostic Mock</h3>
+            <p>A full CBT-style sit-down across all subject areas to map exactly where you stand before you prepare another minute.</p>
+          </div>
+          <div class="day-pass">
+            <div class="day-num mono">DAY 02 · SIMULATION</div>
+            <h3>Full Exam Simulation</h3>
+            <p>A complete timed mock under real exam conditions — same duration, same pressure, same interface as OOU's CBT.</p>
+          </div>
+          <div class="day-pass">
+            <div class="day-num mono">DAY 03 · REVIEW</div>
+            <h3>Review &amp; Final Drill</h3>
+            <p>Targeted drilling on your weak areas from Days 1–2, closing with one final timed mock to confirm you're ready.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="access" class="access dot-field">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Getting in</div>
+        <h2>Access is by invitation, not by search.</h2>
+        <p>Seats are reserved for aspirants whose emails are already on our list. Not on it yet? WhatsApp is the fastest way in.</p>
+      </div>
+      <div class="access-grid">
+        <div class="access-card highlight">
+          <div class="stamp-badge">VERIFIED<br>ACCESS</div>
+          <span class="access-tag invited">Invited aspirants</span>
+          <h3>Sign up with your email</h3>
+          <p>If you received an email from us, use that same address below to create your account and get into the mock exam.</p>
+          <div class="price-row">
+            <span class="old-amount">₦4,000</span>
+            <span class="amount">₦2,000</span>
+            <span class="period">/ 3-day access</span>
+          </div>
+          <form class="signup" id="signupForm">
+  <input type="text" id="signupName" placeholder="Full name" required>
+  <input type="text" id="signupJamb" placeholder="JAMB Reg. Number" required>
+  <input type="email" id="signupEmail" placeholder="Ur verified email" required>
+  <input type="password" id="signupPassword" placeholder="Create a password" minlength="6" required>
+  <button type="submit" class="btn btn-primary" id="signupBtn">Create My Account</button>
+  <div class="form-msg" id="signupMsg"></div>
+</form>
+        </div>
+        <div class="access-card">
+          <div class="stamp-badge pending">GET<br>VERIFIED</div>
+          <span class="access-tag open">Not on the list yet</span>
+          <h3>Message Us on WhatsApp</h3>
+          <p>No email invite yet? That just means we haven't added you. Send a message and I'll get you set up personally.</p>
+          <a href="https://wa.me/2349131778249" target="_blank" rel="noopener" class="btn btn-whatsapp" style="margin-top:6px;">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2Zm0 18.06h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.14.82.84-3.06-.2-.31a8.2 8.2 0 0 1-1.26-4.37c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.55-3.7 8.24-8.25 8.24Z"/></svg>
+            Chat on WhatsApp
+          </a>
+          <p class="price-note">Runs for 3 days · 25th to 27th · Limited seats per cohort.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="brand-cluster">
+        <div class="logo-badge"><img src="blogo.png" alt="Codexhub logo"></div>
+        <div class="brand-text">
+          <div class="brand-name" style="color:white;">CodexHub</div>
+          <div class="brand-sub" style="color:#9A8CBE;">OOU PUTME Mock Exam</div>
+        </div>
+      </div>
+      <p class="footer-disclaimer">This mock exam service is an independent preparation resource created and operated by OOU students for OOU aspirants. It is not officially affiliated with, endorsed by, or operated by Olabisi Onabanjo University. The school name and logo are used solely for identification of the examination this service prepares aspirants for.</p>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 CodexHub. All rights reserved.</span>
+      <a href="https://wa.me/2349131778249" target="_blank" rel="noopener">WhatsApp: +234 913 177 8249</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- Hamburger menu ----
+  const menuToggle = document.getElementById('menuToggle');
+  const navPanel = document.getElementById('navPanel');
+  const navOverlay = document.getElementById('navOverlay');
+
+  function closeMenu(){
+    menuToggle.classList.remove('open');
+    navPanel.classList.remove('open');
+    navOverlay.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+  function toggleMenu(){
+    const isOpen = navPanel.classList.toggle('open');
+    menuToggle.classList.toggle('open', isOpen);
+    navOverlay.classList.toggle('open', isOpen);
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+  }
+  menuToggle.addEventListener('click', toggleMenu);
+  navOverlay.addEventListener('click', closeMenu);
+  navPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+  // ---- Signup form -> Flask backend ----
+  const API_BASE_URL = 'https://codexhub-putme.onrender.com'; // update once backend is deployed
+
+  const form = document.getElementById('signupForm');
+  const msg = document.getElementById('signupMsg');
+  const submitBtn = document.getElementById('signupBtn');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    msg.textContent = '';
+    msg.className = 'form-msg';
+
+    const full_name = document.getElementById('signupName').value.trim();
+    const jamb_number = document.getElementById('signupJamb').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const password = document.getElementById('signupPassword').value;
+   
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creating account...';
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ full_name, jamb_number, email, password })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        msg.textContent = data.error || 'Something went wrong. Please try again.';
+        msg.className = 'form-msg error';
+      } else {
+        localStorage.setItem('codexhub_token', data.token);
+msg.textContent = "You're in! Redirecting...";
+msg.className = 'form-msg success';
+form.reset();
+setTimeout(() => { window.location.href = '/department.html'; }, 1200);
+      }
+    } catch (err) {
+      msg.textContent = 'Could not reach the server. Please check your connection and try again.';
+      msg.className = 'form-msg error';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Create My Account';
+    }
+  });
+
+  // ---- Hero mock CBT card: clickable options + ticking demo timer ----
+  document.querySelectorAll('.cbt-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.cbt-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+
+  (function(){
+    let totalSeconds = 42*60 + 17;
+    const el = document.getElementById('cbtClock');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setInterval(() => {
+      totalSeconds = totalSeconds > 0 ? totalSeconds - 1 : 45*60;
+      const m = String(Math.floor(totalSeconds/60)).padStart(2,'0');
+      const s = String(totalSeconds%60).padStart(2,'0');
+      el.textContent = `00:${m}:${s}`;
+    }, 1000);
+  })();
+
+  // Register the service worker so the app becomes installable (PWA)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+
+  (function(){
+  // Adjust these two lines if your real exam dates change.
+  // Assumes West Africa Time (UTC+1) — Nigeria's timezone.
+  const examStart = new Date('2026-08-25T00:00:00+01:00');
+  const examEnd   = new Date('2026-08-28T00:00:00+01:00'); // exclusive — i.e. end of Aug 27
+    
+  const board = document.getElementById('countdownBoard');
+  const label = document.getElementById('countdownLabel');
+  const elDays = document.getElementById('cdDays');
+  const elHours = document.getElementById('cdHours');
+  const elMins = document.getElementById('cdMins');
+  const elSecs = document.getElementById('cdSecs');
+  const elMs = document.getElementById('cdMs');
+
+  function pad(n, len){ return String(n).padStart(len, '0'); }
+
+  function tick(){
+    const now = new Date();
+    let diff, isLive = false;
+
+    if (now < examStart) {
+      diff = examStart - now;
+      label.textContent = 'PUTME MOCK BEGINS IN';
+    } else if (now < examEnd) {
+      diff = examEnd - now;
+      label.textContent = '🔴 LIVE NOW — CLOSES IN';
+      isLive = true;
+    } else {
+      // Exam window has fully closed — hide the board entirely
+      document.querySelector('.countdown-hang').style.display = 'none';
+      return;
+    }
+
+    board.classList.toggle('is-live', isLive);
+
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    const ms = Math.floor(diff % 1000);
+
+    elDays.textContent = pad(days, 2);
+    elHours.textContent = pad(hours, 2);
+    elMins.textContent = pad(mins, 2);
+    elSecs.textContent = pad(secs, 2);
+    elMs.textContent = pad(ms, 3);
+  }
+
+  tick();
+  setInterval(tick, 47); // fast enough for a smooth-looking ms readout
+})();
+</script>
+
+</body>
+</html>

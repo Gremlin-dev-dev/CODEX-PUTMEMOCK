@@ -1,0 +1,15 @@
+{
+  "name": "Codexhub — OOU PUTME Mock Exam",
+  "short_name": "CodexHub",
+  "description": "3-day intensive CBT mock exam for OOU aspirants.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F5EEFF",
+  "theme_color": "#5B21B6",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icons/blogo.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/blogo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
